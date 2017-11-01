@@ -109,46 +109,31 @@ The the last two pulses are the ``footer`` (3000, 7000). These are meant to iden
 
 If we now analyse these groups we can distinguish two types of groups:
 
-#. ``700 1400``
-#. ``1400 700``
+#. ``416 1040``
+#. ``1040 624``
 
-So the first group is defined by a short 1st and 2nd long and the second group by a long 1st and 2nd short pulse. So we take either of these two pulses to define a logical 0 or 1. In our case a long 1st pulse means a 1 and a short 1st pulse means a 0. We then get the following output:
-
-.. code-block:: console
-
-	 10110000000000010001
-
-We can group the sequence of bits into the following groups A to H:
+So the first group is defined by a short 1st and 2nd long and the second group by a long 1st and 2nd short pulse. The first one defines a 0 and the second pair defines 1. We then get the following output:
 
 .. code-block:: console
 
-   AAAAAAAAAAAA BB C D E F G H
-   101100000000 00 0 1 0 0 0 1
+	 011100010010011101101100
 
-Each of the groups of bits (A to H) has a specific meaning:
+We can group the sequence of bits into the following groups A to D.
+Each of the groups of bits (A to D) has a specific meaning:
 
-+-----------+-----------+-----------------+------------+-----------------------------+
-| **Group** | **Bit #** | **Config name** | **Range**  | **Description**             |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| A         | 1 to 12   | id              | 1 to 4095  | SystemCode                  |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| B         | 13, 14    | unit            | 1 to 3     | UnitCode                    |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| C         | 15        | id              | 1          | Command to all devices      |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| D         | 16        | all             | 0,1        | Switch ON or OFF            |
-+           +           +                 +            + Dimmer DOWN or UP           +
-|           |           |                 |            |                             |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| E         | 17        | dimm            | 0,1        | switch, dimmer mode         |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| F         | 18        |                 | 0          | always zero                 |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| G         | 19        |                 | 0,1        | internal, handled by driver |
-+-----------+-----------+-----------------+------------+-----------------------------+
-| H         | 20        |                 | 0,1        | even parity bit             |
-+-----------+-----------+-----------------+------------+-----------------------------+
++-----------+-----------+----------------------+
+| **Group** | **Bit #** | **Description**      |
++-----------+-----------+----------------------+
+| A         | 0 to 3    | 1st part systemcode  |
++-----------+-----------+----------------------+
+| B         | 3 to 19   | encrypted systemcode |
++-----------+-----------+----------------------+
+| C         | 16 to 19  | on/off statecode     |
++-----------+-----------+----------------------+
+| D         | 20 to 24  | unit                 |
++-----------+-----------+----------------------+
 
+CONTINUE HERE
 So this code represents:
 
 .. code-block:: console
