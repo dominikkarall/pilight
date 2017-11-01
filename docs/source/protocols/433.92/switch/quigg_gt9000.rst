@@ -19,11 +19,11 @@ Globaltronics Quigg GT-9000
 
 .. rubric:: Supported Brands
 
-+-------------------------------+---------------+
-| **Brand**                     | **Protocol**  |
-+-------------------------------+---------------+
-| Globaltronics GT-FSI-04a      | quigg_gt9000  |
-+-------------------------------+---------------+
++-------------------------------------+---------------+
+| **Brand**                           | **Protocol**  |
++-------------------------------------+---------------+
+| Globaltronics GT-FSI-09 / GT-9000   | quigg_gt9000  |
++-------------------------------------+---------------+
 
 .. rubric:: Sender Arguments
 
@@ -72,36 +72,40 @@ Globaltronics Quigg GT-9000
 
 .. rubric:: Protocol
 
-The quigg_switch protocol sends 42 pulses like this
+The quigg_switch protocol sends 50 pulses like this
 
 .. code-block:: console
 
-   700 1400 700 700 1400 1400 700 1400 700 700 1400 700 1400 700 1400 700 1400 700 1400 700 1400 700 1400 700 1400 700 1400 700 1400 700 1400 1400 700 700 1400 700 1400 700 1400 1400 700 81000
+   416 1040 1040 624 1040 624 1040 624 416 1040 416 1040 416 1040 1040 624 416 1040 416 1040 1040 624 416 1040 416 1040 1040 624 1040 624 1040 624 416 1040 1040 624 1040 624 416 1040 1040 624 1040 624 416 1040 416 1040 2912 7072
 
-The first pulse is the ``header`` and the last pulse is the ``footer``. These are meant to identify the pulses as genuine. We don't use them for further processing. The next step is to transform this output into 20 groups of 2 pulses (and thereby dropping the ``header`` and ``footer`` pulse).
+The the last two pulses are the ``footer`` (3000, 7000). These are meant to identify the pulses as genuine. We don't use them for further processing. The next step is to transform this output into 24 groups of 2 pulses (and thereby dropping the ``footer`` pulses).
 
 .. code-block:: console
 
-   1400 700
-   700 1400
-   1400 700
-   1400 700
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   700 1400
-   1400 700
-   700 1400
-   700 1400
-   700 1400
-   1400 700
+   416 1040
+   1040 624
+   1040 624
+   1040 624
+   416 1040
+   416 1040
+   416 1040
+   1040 624
+   416 1040
+   416 1040
+   1040 624
+   416 1040
+   416 1040
+   1040 624
+   1040 624
+   1040 624
+   416 1040
+   1040 624
+   1040 624
+   416 1040
+   1040 624
+   1040 624
+   416 1040
+   416 1040
 
 If we now analyse these groups we can distinguish two types of groups:
 
