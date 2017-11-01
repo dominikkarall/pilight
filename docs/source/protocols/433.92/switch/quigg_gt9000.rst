@@ -124,17 +124,57 @@ Each of the groups of bits (A to D) has a specific meaning:
 +-----------+-----------+----------------------+
 | **Group** | **Bit #** | **Description**      |
 +-----------+-----------+----------------------+
-| A         | 0 to 3    | 1st part systemcode  |
+| A         | 0 to 3    | systemcode type & 1st part systemcode      |
 +-----------+-----------+----------------------+
-| B         | 3 to 19   | encrypted systemcode |
+| B         | 4 to 19   | encrypted systemcode |
 +-----------+-----------+----------------------+
 | C         | 16 to 19  | on/off statecode     |
 +-----------+-----------+----------------------+
-| D         | 20 to 24  | unit                 |
+| D         | 20 to 23  | unit                 |
 +-----------+-----------+----------------------+
 
+Now starts the tricky part of systemcode decoding... 
+
+011100010010011101101100
+
+decoded systemcode
+
+First 2 parts are easy...
+
+byte1 decoded: 0111 bit 0...3
+
+byte2 decoded: 0000 (always 0)
+
+Now we start with the decoding of the systemcode rest. There are two hashmaps which can be used. It depends on the systemcode type if hashmap1 or hashmap2 is used.
+
+byte3 decoded: 0010 ^ HASH[byte2] => 0010 ^ HASH[0001] => FIXME
+
+byte4 decoded: 0111 ^ HASH[byte3] => 0111 ^ HASH[0010] => FIXME
+
+byte5 decoded: 0110 ^ HASH[byte4] => 0110 ^ HASH[0111] => FIXME
+
+byte6 decoded: 1100 ^ HASH[byte5] => 1100 ^ HASH[0110] => FIXME
+
+This results in the systemcode...
+
+01110000...FIXME
+
+Now we need the state (on/off/all).
+
+statecode: 0110 (bit 16-19)
+
+unit: 1100 (bit 20-23)
+
+The statecode in combination with the unit represents the on/off/all state. There are again two hashmaps which are used to identify if on/off/all was pressed.
+See the hashmap below:
+Unit, OFF-Statecodes, ON-Statecodes
+0 | 8,2,11,7 | 10,6,1,5
+
+Search for the unit (row) and the statecode (column) to identify if ON or OFF was pressed for the special unit.
+
+
 CONTINUE HERE
-So this code represents:
+
 
 .. code-block:: console
 
